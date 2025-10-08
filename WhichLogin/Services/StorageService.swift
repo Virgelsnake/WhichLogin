@@ -27,8 +27,23 @@ class StorageService: ObservableObject {
     }
     
     private init() {
+        ensureDirectoryExists()
         loadSettings()
         loadPreferences()
+    }
+    
+    private func ensureDirectoryExists() {
+        guard let containerURL = containerURL else {
+            print("Failed to get container URL")
+            return
+        }
+        
+        do {
+            try FileManager.default.createDirectory(at: containerURL, withIntermediateDirectories: true, attributes: nil)
+            print("Storage directory ready at: \(containerURL.path)")
+        } catch {
+            print("Failed to create storage directory: \(error.localizedDescription)")
+        }
     }
     
     // MARK: - Preferences Management
@@ -39,10 +54,18 @@ class StorageService: ObservableObject {
             return
         }
         
+        // Check if file exists first
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            print("Preferences file doesn't exist yet, starting with empty preferences")
+            preferences = []
+            return
+        }
+        
         do {
             let data = try Data(contentsOf: url)
             let decryptedData = try decrypt(data)
             preferences = try JSONDecoder().decode([SiteLoginPreference].self, from: decryptedData)
+            print("Loaded \(preferences.count) preferences")
         } catch {
             print("Failed to load preferences: \(error.localizedDescription)")
             preferences = []
@@ -114,9 +137,18 @@ class StorageService: ObservableObject {
             return
         }
         
+        // Check if file exists first
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            print("Settings file doesn't exist yet, using defaults")
+            settings = AppSettings()
+            saveSettings() // Create the file with defaults
+            return
+        }
+        
         do {
             let data = try Data(contentsOf: url)
             settings = try JSONDecoder().decode(AppSettings.self, from: data)
+            print("Loaded settings successfully")
         } catch {
             print("Failed to load settings: \(error.localizedDescription)")
             settings = AppSettings()

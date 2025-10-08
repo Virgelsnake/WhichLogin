@@ -22,11 +22,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.target = self
         }
         
-        // Create popover
+        // Create popover with StorageService injected
         popover = NSPopover()
         popover.contentSize = NSSize(width: 400, height: 500)
         popover.behavior = .transient
-        popover.contentViewController = NSHostingController(rootView: MainView())
+        
+        let mainView = MainView()
+            .environmentObject(StorageService.shared)
+        popover.contentViewController = NSHostingController(rootView: mainView)
     }
     
     @objc func togglePopover() {
