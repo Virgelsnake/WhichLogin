@@ -1,0 +1,100 @@
+name: WhichLogin
+options:
+  bundleIdPrefix: com.virgelsnake
+  deploymentTarget:
+    macOS: "13.0"
+  developmentLanguage: en
+  xcodeVersion: "16.0"
+  
+settings:
+  base:
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "13.0"
+    ENABLE_HARDENED_RUNTIME: NO
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+    
+targets:
+  WhichLogin:
+    type: application
+    platform: macOS
+    deploymentTarget: "13.0"
+    sources:
+      - WhichLogin
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.virgelsnake.WhichLogin
+        INFOPLIST_FILE: WhichLogin/Info.plist
+        ENABLE_HARDENED_RUNTIME: NO
+        CODE_SIGN_ENTITLEMENTS: WhichLogin/WhichLogin.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        COMBINE_HIDPI_IMAGES: YES
+        SWIFT_EMIT_LOC_STRINGS: YES
+        SWIFT_VERSION: "5.9"
+        CODE_SIGN_IDENTITY: "-"
+    dependencies:
+      - target: WhichLoginExtension
+        embed: true
+    scheme:
+      testTargets:
+        - WhichLoginTests
+        - WhichLoginUITests
+        
+  WhichLoginExtension:
+    type: app-extension
+    platform: macOS
+    deploymentTarget: "13.0"
+    sources:
+      - WhichLoginExtension
+      - path: WhichLogin/Models
+      - path: WhichLogin/Services
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.virgelsnake.WhichLogin.Extension
+        INFOPLIST_FILE: WhichLoginExtension/Info.plist
+        CODE_SIGN_ENTITLEMENTS: WhichLoginExtension/WhichLoginExtension.entitlements
+        SWIFT_VERSION: "5.9"
+        CODE_SIGN_IDENTITY: "-"
+        
+  WhichLoginTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - WhichLoginTests
+    dependencies:
+      - target: WhichLogin
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.virgelsnake.WhichLoginTests
+        
+  WhichLoginUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - WhichLoginUITests
+    dependencies:
+      - target: WhichLogin
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.virgelsnake.WhichLoginUITests
+
+schemes:
+  WhichLogin:
+    build:
+      targets:
+        WhichLogin: all
+        WhichLoginExtension: all
+        WhichLoginTests: [test]
+        WhichLoginUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - WhichLoginTests
+        - WhichLoginUITests
+    archive:
+      config: Release

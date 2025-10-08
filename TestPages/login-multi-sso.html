@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Test Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 32px;
+        }
+        
+        .sso-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .sso-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .sso-button:hover {
+            background: #f8f8f8;
+            border-color: #999;
+        }
+        
+        .sso-button img {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+        }
+        
+        .divider::before {
+            margin-right: 12px;
+        }
+        
+        .divider::after {
+            margin-left: 12px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .submit-button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .submit-button:hover {
+            background: #5568d3;
+        }
+        
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sign In</h1>
+        <p class="subtitle">Choose your preferred sign-in method</p>
+        
+        <div class="sso-buttons">
+            <button class="sso-button" onclick="handleSSO('apple')">
+                <span>🍎</span>
+                <span>Continue with Apple</span>
+            </button>
+            
+            <button class="sso-button" onclick="handleSSO('google')">
+                <span>🔵</span>
+                <span>Continue with Google</span>
+            </button>
+            
+            <button class="sso-button" onclick="handleSSO('microsoft')">
+                <span>🪟</span>
+                <span>Continue with Microsoft</span>
+            </button>
+            
+            <button class="sso-button" onclick="handleSSO('github')">
+                <span>🐙</span>
+                <span>Continue with GitHub</span>
+            </button>
+            
+            <button class="sso-button" onclick="handleSSO('facebook')">
+                <span>📘</span>
+                <span>Continue with Facebook</span>
+            </button>
+            
+            <button class="sso-button" onclick="handleSSO('linkedin')">
+                <span>💼</span>
+                <span>Continue with LinkedIn</span>
+            </button>
+        </div>
+        
+        <div class="divider">or</div>
+        
+        <form onsubmit="handleEmailLogin(event)">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="you@example.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="submit-button">Sign In with Email</button>
+        </form>
+        
+        <div class="footer">
+            Don't have an account? <a href="#">Sign up</a>
+        </div>
+    </div>
+    
+    <script>
+        function handleSSO(provider) {
+            alert(`Signing in with ${provider}...`);
+            console.log('SSO provider clicked:', provider);
+        }
+        
+        function handleEmailLogin(event) {
+            event.preventDefault();
+            alert('Signing in with email/password...');
+            console.log('Email/password login submitted');
+        }
+    </script>
+</body>
+</html>
